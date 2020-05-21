@@ -34,7 +34,6 @@ export class ShoppingCartComponent implements OnInit {
   }
 
   addItem(item: MenuItem){
-    console.log(item)
     this.shoppingService.addItem(item)
     this.cdr.detectChanges();
   }
