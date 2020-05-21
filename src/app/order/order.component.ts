@@ -4,12 +4,19 @@ import { OrderService } from './order.service';
 import { CartItem } from 'app/restaurant-detail/shopping-cart/cart-item.model';
 import {Order, OrderItem} from  './order.model';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 
 @Component({
   selector: 'mt-order',
   templateUrl: './order.component.html'
 })
 export class OrderComponent implements OnInit {
+
+  emailRegex = /^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i
+
+  numberRegex = /^[0-9]*$/
+
+  orderForm: FormGroup
 
   order: Order
 
@@ -22,9 +29,34 @@ export class OrderComponent implements OnInit {
     { label: 'Cartão Refeição', value: 'REF' }
   ]
 
-  constructor(private orderService: OrderService, private router: Router) { }
+  constructor(private orderService: OrderService, 
+              private router: Router,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.orderForm = this.fb.group({
+      name: this.fb.control('', [Validators.required, Validators.minLength(5)]),
+      email: this.fb.control('', [Validators.required, Validators.pattern(this.emailRegex)]),
+      emailConfirm: this.fb.control('', [Validators.required, Validators.pattern(this.emailRegex)]),
+      address: this.fb.control('', [Validators.required, Validators.minLength(5)]),
+      number: this.fb.control('', [Validators.required, Validators.pattern(this.numberRegex)]),
+      optionalAddress: this.fb.control(''),
+      paymentOption: this.fb.control('', [Validators.required])
+    }, {validator: OrderComponent.equalsEmail})
+  }
+
+  static equalsEmail(group: AbstractControl): {[key: string]: boolean}{
+    const email = group.get('email')
+    const emailConfirm = group.get('emailConfirm')
+    if(!email || !emailConfirm){
+      return undefined
+    }
+
+    if(email.value !== emailConfirm.value){
+       return {emailNotMatch: true} 
+    }
+
+    return undefined
   }
 
   itensValue(){
@@ -55,6 +87,7 @@ export class OrderComponent implements OnInit {
                       .subscribe((order: Order) => 
                                                   this.router.navigate(['/order-summary']))  
 
+    console.log(order)                                                
     this.orderService.clear()
   }
 
