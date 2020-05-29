@@ -1,10 +1,16 @@
 import { CartItem } from "./cart-item.model";
 import { MenuItem } from "../menu-item/menu-item.model";
-import { ChangeDetectorRef } from "@angular/core";
+import { ChangeDetectorRef, Injectable } from "@angular/core";
+import { MessageService } from "app/shared/messages/message.service";
 
+@Injectable()
 export class ShoppingCartService{
 
     itens: CartItem[] = []
+
+    constructor(private messageService: MessageService){
+
+    }
 
     clearCart(){
         console.log(this.itens)
@@ -18,6 +24,8 @@ export class ShoppingCartService{
         }else{
             this.itens.push(new CartItem(item))
         }
+
+        this.messageService.notify(`Você adicionou ${item.name} no carrinho`)
     }
 
     increaseItem(item: CartItem){
@@ -33,6 +41,8 @@ export class ShoppingCartService{
 
     removeItem(item: CartItem){
         this.itens.splice(this.itens.indexOf(item), 1)
+
+        this.messageService.notify(`Você removeu ${item.menuItem.name} do carrinho`)
     }
 
     total(): number {
