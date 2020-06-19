@@ -21,7 +21,7 @@ import { OrderSummaryComponent } from './order/order-summary/order-summary.compo
 import { SharedModule } from './shared/shared.module';  
 import { NotFoundComponent } from './not-found/not-found.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
-
+import { LoginComponent } from './security/login/login.component';
 
 
 @NgModule({
@@ -37,7 +37,8 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     MenuItemComponent,
     ReviewsComponent,
     OrderSummaryComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +49,9 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
     FormsModule,
     SharedModule.forRoot()
   ],
-  providers: [{provide: LocationStrategy, useClass: HashLocationStrategy},{provide: LOCALE_ID, useValue: 'pt-BR'}],
+  providers: [{provide: LOCALE_ID, useValue: 'pt-BR'}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+//{provide: LocationStrategy, useClass: HashLocationStrategy}
