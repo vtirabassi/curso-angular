@@ -22,6 +22,8 @@ export class OrderComponent implements OnInit {
 
   delivery: number = 8
 
+  orderId: string
+
   radiosPaymentsOptions: RadioOption[] = [
     { label: 'Dinheiro', value: 'MON' },
     { label: 'Cartão de Débito', value: 'DEB' },
@@ -84,11 +86,17 @@ export class OrderComponent implements OnInit {
     .map((item: CartItem) => new OrderItem(item.quantity, item.menuItem.id))
 
     this.orderService.sendOrder(order)
-                      .subscribe((order: Order) => 
-                                                  this.router.navigate(['/order-summary']))  
+                      .do((order: Order) => {this.orderId = order.id})
+                      .subscribe((order: Order) => {
+                        this.router.navigate(['/order-summary'])
+                        this.orderService.clear()
+                      })  
 
     console.log(order)                                                
-    this.orderService.clear()
+  }
+
+  isOrderCompleted():boolean{
+    return this.orderId !== undefined
   }
 
 }

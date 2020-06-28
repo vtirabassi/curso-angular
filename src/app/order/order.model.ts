@@ -3,9 +3,9 @@ export class Order{
         public address: string, 
         public number: number, 
         public optionalAddress: string,
-         public paymentOption: string,
-         public itens: OrderItem[],
-         public id?: string){}
+        public paymentOption: string,
+        public itens: OrderItem[],
+        public id?: string){}
 }
 
 export class OrderItem{
