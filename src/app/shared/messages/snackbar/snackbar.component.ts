@@ -34,6 +34,7 @@ export class SnackbarComponent implements OnInit {
 
   ngOnInit() {
     this.messageService.notifier
+    .do(m => console.log(m))
     .do(msg => {
       this.message = msg
       this.snackvisibility = 'visible'
