@@ -2,10 +2,10 @@ import { Injectable } from "@angular/core";
 import { CartItem } from "app/restaurant-detail/shopping-cart/cart-item.model";
 import { ShoppingCartService } from "app/restaurant-detail/shopping-cart/shopping-cart.service";
 import { Order } from "./order.model";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 import { MEAT_API } from "app/app.api";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { LoginService } from "app/security/login/login.service";
+
 
 @Injectable()
 export class OrderService{

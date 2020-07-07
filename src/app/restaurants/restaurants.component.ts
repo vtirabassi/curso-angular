@@ -5,11 +5,9 @@ import { Restaurant } from './restaurant/restaurant.model';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 
-import 'rxjs/add/operator/debounceTime'
-import 'rxjs/add/operator/distinctUntilChanged'
-import 'rxjs/add/operator/catch'
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/from';
+import { Observable, from } from 'rxjs';
+import {switchMap, distinctUntilChanged, catchError, tap, debounceTime} from 'rxjs/operators' 
+
 
 @Component({
   selector: 'mt-restaurants',
@@ -43,12 +41,13 @@ export class RestaurantsComponent implements OnInit {
     })
 
     this.searchControl.valueChanges
-      .debounceTime(500)
-      .distinctUntilChanged()
-      .switchMap(searchDigit => 
-        this.restaurantsServices.restaurants(searchDigit) 
-        .catch(error => Observable.from([])))
-      .subscribe(rest => this.restaurants = rest)
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        switchMap(searchDigit => 
+        this.restaurantsServices.restaurants(searchDigit).pipe( 
+        catchError(error => from([]))))
+        ).subscribe(rest => this.restaurants = rest)
 
     this.restaurantsServices.restaurants()
       .subscribe(rest => this.restaurants = rest)
