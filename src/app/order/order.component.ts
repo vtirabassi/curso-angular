@@ -4,7 +4,7 @@ import { OrderService } from './order.service';
 import { CartItem } from 'app/restaurant-detail/shopping-cart/cart-item.model';
 import {Order, OrderItem} from  './order.model';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'mt-order',
@@ -37,7 +37,7 @@ export class OrderComponent implements OnInit {
 
   ngOnInit() {
     this.orderForm = this.fb.group({
-      name: this.fb.control('', [Validators.required, Validators.minLength(5)]),
+      name: new FormControl('', {validators: [Validators.required, Validators.minLength(5)], updateOn: 'blur'}),
       email: this.fb.control('', [Validators.required, Validators.pattern(this.emailRegex)]),
       emailConfirm: this.fb.control('', [Validators.required, Validators.pattern(this.emailRegex)]),
       address: this.fb.control('', [Validators.required, Validators.minLength(5)]),

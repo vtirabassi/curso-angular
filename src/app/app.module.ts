@@ -4,6 +4,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, PreloadAllModules } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms'
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { LocationStrategy, HashLocationStrategy,registerLocaleData } from '@angular/common';
+import localPt from '@angular/common/locales/pt'
+
+registerLocaleData(localPt, 'pt')
 
 import {ROUTES} from './app.routes'
 
@@ -20,7 +24,6 @@ import { ReviewsComponent } from './restaurant-detail/reviews/reviews.component'
 import { OrderSummaryComponent } from './order/order-summary/order-summary.component';
 import { SharedModule } from './shared/shared.module';  
 import { NotFoundComponent } from './not-found/not-found.component';
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { LoginComponent } from './security/login/login.component';
 import { UserDetailComponent } from './header/user-detail/user-detail.component';
 import { ApplicationErrorMessage } from './app.error-message';
@@ -52,7 +55,7 @@ import { ApplicationErrorMessage } from './app.error-message';
     SharedModule.forRoot(),
     RouterModule.forRoot(ROUTES, {preloadingStrategy: PreloadAllModules})
   ],
-  providers: [{provide: LOCALE_ID, useValue: 'pt-BR'},
+  providers: [{provide: LOCALE_ID, useValue: 'pt'},
               {provide: ErrorHandler, useClass: ApplicationErrorMessage} ],
   bootstrap: [AppComponent]
 })
